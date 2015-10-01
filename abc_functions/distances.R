@@ -756,5 +756,61 @@ ks.distance <-  function(theta, suff.stats){
   
   data.sim <- do.call(cbind,python.call(python.fun,param,steps,samplesize,resamplefactor))
   ks.vec <- unlist(lapply(1:6,function(n,data1,data2) ks.test(data1[,n],data2[,n])$statistic,data.true,data.sim))
-  return(sqrt(sum(ks.vec^2)))
+  ks.r <- sqrt(sum(ks.vec[1:3]^2))
+  ks.v <- sqrt(sum(ks.vec[4:6]^2))
+  return(c(ks.r,ks.v))
+}
+
+ks.distance.smooth <-  function(theta, suff.stats){
+  ks.smooth <- function(x,y){
+    x.dens <- density(x)
+    n <- length(x.dens$x)
+    y.dens <- density(y, from = x.dens$x[1], to = x.dens$x[n], n=n)
+    x.cum <- cumsum(x.dens$y)/sum(x.dens$y)
+    y.cum <- cumsum(y.dens$y)/sum(y.dens$y)
+    return(max(abs(x.cum-y.cum)))
+  }
+  python.fun <- suff.stats[["python.fun"]]
+  param <- suff.stats[["param"]]
+  steps <- suff.stats[["steps"]]
+  samplesize <- suff.stats[["samplesize"]]
+  resamplefactor <- suff.stats[["resamplefactor"]]
+  
+  data.true <- suff.stats[["data.true"]]
+  indicies <- suff.stats[["indicies"]]
+  param[indicies] <- theta
+  param <- as.numeric(param)
+  
+  data.sim <- do.call(cbind,python.call(python.fun,param,steps,samplesize,resamplefactor))
+  ks.vec <- unlist(lapply(1:6,function(n,data1,data2) ks.smooth(data1[,n],data2[,n]),data.true,data.sim))
+  ks.r <- sqrt(sum(ks.vec[1:3]^2))
+  ks.v <- sqrt(sum(ks.vec[4:6]^2))
+  return(c(ks.r,ks.v))
+}
+
+ls.distance <-  function(theta, suff.stats){
+  l2.smooth <- function(x1,x2){
+    n <- length(x1)
+    dens1 <- density(x1)
+    dens2 <- density(x2, from = min(dens1$x), to = max(dens1$x), n = length(dens1$x))
+    y1 <- cumsum(dens1$y)/sum(dens1$y)
+    y2 <- cumsum(dens2$y)/sum(dens2$y)
+    return(sqrt(sum((y1-y2)^2)))
+  }
+  python.fun <- suff.stats[["python.fun"]]
+  param <- suff.stats[["param"]]
+  steps <- suff.stats[["steps"]]
+  samplesize <- suff.stats[["samplesize"]]
+  resamplefactor <- suff.stats[["resamplefactor"]]
+  
+  data.true <- suff.stats[["data.true"]]
+  indicies <- suff.stats[["indicies"]]
+  param[indicies] <- theta
+  param <- as.numeric(param)
+  
+  data.sim <- do.call(cbind,python.call(python.fun,param,steps,samplesize,resamplefactor))
+  ks.vec <- unlist(lapply(1:6,function(n,data1,data2) l2.smooth(data1[,n],data2[,n]),data.true,data.sim))
+  ks.r <- sqrt(sum(ks.vec[1:3]^2))
+  ks.v <- sqrt(sum(ks.vec[4:6]^2))
+  return(c(ks.r,ks.v))
 }
