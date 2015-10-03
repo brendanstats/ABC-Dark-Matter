@@ -1,0 +1,236 @@
+-------------------- 
+Session Info 
+-------------------- 
+Start Time: 2015-10-02 18:46:32 
+Initial Samples: 10000 
+Required Samples: 1000 
+Shrinkage Rate: 0.8 
+Time Steps: 20 
+Prior Functions: prior.Ec 
+Noise Functions: noise.normal.01.1 
+Distance Function: dens2d.distance 
+Progress File: dens2d_output/prog.txt 
+Output File: dens2d_output/results.R 
+Python Load Call: ../sampling_functions/functions_0721_E.py 
+-------------------- 
+ 
+-------------------- 
+Time step 1 
+-------------------- 
+Time: 2015-10-02 21:17:09 
+Total Time: 2.51014975024594 
+Step Time: 2.51014975024594 
+Epsilon: 0.7522891 
+Drawn Samples: 10000 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 2 
+-------------------- 
+Time: 2015-10-02 21:51:13 
+Total Time: 3.07805595722463 
+Step Time: 34.0743724187215 
+Epsilon: 0.7497934 
+Drawn Samples: 2239 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 3 
+-------------------- 
+Time: 2015-10-02 22:15:16 
+Total Time: 3.47895928442478 
+Step Time: 24.0541996320089 
+Epsilon: 0.6801014 
+Drawn Samples: 1564 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 4 
+-------------------- 
+Time: 2015-10-02 22:39:35 
+Total Time: 3.88411423385143 
+Step Time: 24.3092969655991 
+Epsilon: 0.5569361 
+Drawn Samples: 1588 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 5 
+-------------------- 
+Time: 2015-10-02 23:05:14 
+Total Time: 4.31151407082876 
+Step Time: 25.6439902186394 
+Epsilon: 0.4143787 
+Drawn Samples: 1667 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 6 
+-------------------- 
+Time: 2015-10-02 23:31:53 
+Total Time: 4.75587550024192 
+Step Time: 26.6616857647896 
+Epsilon: 0.2866068 
+Drawn Samples: 1745 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 7 
+-------------------- 
+Time: 2015-10-02 23:59:29 
+Total Time: 5.21568594608042 
+Step Time: 27.5886267503103 
+Epsilon: 0.1985123 
+Drawn Samples: 1803 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 8 
+-------------------- 
+Time: 2015-10-03 00:26:28 
+Total Time: 5.66552773250474 
+Step Time: 26.9905071854591 
+Epsilon: 0.1348339 
+Drawn Samples: 1763 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 9 
+-------------------- 
+Time: 2015-10-03 00:55:00 
+Total Time: 6.14105643305514 
+Step Time: 28.5317220330238 
+Epsilon: 0.08638827 
+Drawn Samples: 1863 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 10 
+-------------------- 
+Time: 2015-10-03 01:22:08 
+Total Time: 6.5931999213828 
+Step Time: 27.1286092996597 
+Epsilon: 0.05972921 
+Drawn Samples: 1770 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 11 
+-------------------- 
+Time: 2015-10-03 01:50:53 
+Total Time: 7.07251026974784 
+Step Time: 28.7586209019025 
+Epsilon: 0.04152877 
+Drawn Samples: 1879 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 12 
+-------------------- 
+Time: 2015-10-03 02:18:50 
+Total Time: 7.53829965247048 
+Step Time: 27.9473629633586 
+Epsilon: 0.031121 
+Drawn Samples: 1816 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 13 
+-------------------- 
+Time: 2015-10-03 02:47:38 
+Total Time: 8.01828838527203 
+Step Time: 28.7993239680926 
+Epsilon: 0.02420159 
+Drawn Samples: 1885 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 14 
+-------------------- 
+Time: 2015-10-03 03:16:09 
+Total Time: 8.49343283500936 
+Step Time: 28.5086669842402 
+Epsilon: 0.02030336 
+Drawn Samples: 1847 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 15 
+-------------------- 
+Time: 2015-10-03 03:49:40 
+Total Time: 9.05214001721806 
+Step Time: 33.5224309325218 
+Epsilon: 0.01798342 
+Drawn Samples: 2166 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 16 
+-------------------- 
+Time: 2015-10-03 04:25:10 
+Total Time: 9.64385307391485 
+Step Time: 35.5027834018072 
+Epsilon: 0.01648887 
+Drawn Samples: 2315 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 17 
+-------------------- 
+Time: 2015-10-03 05:06:20 
+Total Time: 10.3298702316814 
+Step Time: 41.1610294659932 
+Epsilon: 0.01526303 
+Drawn Samples: 2692 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 18 
+-------------------- 
+Time: 2015-10-03 05:55:46 
+Total Time: 11.153858521382 
+Step Time: 49.4392973820368 
+Epsilon: 0.01445666 
+Drawn Samples: 3245 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 19 
+-------------------- 
+Time: 2015-10-03 06:52:08 
+Total Time: 12.0932609246837 
+Step Time: 56.3641441980998 
+Epsilon: 0.01391664 
+Drawn Samples: 3722 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 20 
+-------------------- 
+Time: 2015-10-03 08:02:30 
+Total Time: 13.2660301766793 
+Step Time: 1.17276925199562 
+Epsilon: 0.01339665 
+Drawn Samples: 4648 
+Accepted Samples: 1000 
+-------------------- 
+ 

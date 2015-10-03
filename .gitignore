@@ -2,3 +2,4 @@ sim_galaxies/samples*
 *.Rhistory
 *.DS_Store
 *check.txt
+*.Rapp.history

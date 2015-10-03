@@ -2,6 +2,7 @@
 #Test timing
 ###############################################################################
 
+library(MASS)
 library(rPython)
 library(ggplot2)
 python.load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/sampling_functions/functions_0721.py")
@@ -170,6 +171,37 @@ velocity.dispertion <- function(quantiles,v1,v2){
 }
 
 
+#######################################
+
+#######################################
+
+rv2.dist <- function(data1,data2){
+  r1 <- apply(data1[,1:3],1,function(y) sqrt(sum(y^2)))
+  v1 <- apply(data1[,4:6],1,function(y) sqrt(sum(y^2)))
+  
+  r2 <- apply(data2[,1:3],1,function(y) sqrt(sum(y^2)))
+  v2 <- apply(data2[,4:6],1,function(y) sqrt(sum(y^2)))
+  
+  x1 <- r1*(v1^2)
+  x2 <- r2*(v2^2)
+  
+  return(l2.smooth(x1,x2))
+}
+
+dens2d.dist <- function(data1,data2,n=25){
+  r1 <- apply(data1[,1:3],1,function(y) sqrt(sum(y^2)))
+  v1 <- apply(data1[,4:6],1,function(y) sqrt(sum(y^2)))
+  r2 <- apply(data2[,1:3],1,function(y) sqrt(sum(y^2)))
+  v2 <- apply(data2[,4:6],1,function(y) sqrt(sum(y^2)))
+  
+  h <- c(bandwidth.nrd(r1),bandwidth.nrd(v1))
+  
+  base <- kde2d(r1,v1,h=h,n=n,lims=c(range(r1),range(v1)))
+  test <- kde2d(r2,v2,h=h,n=n,lims=c(range(r1),range(v1)))
+
+  return(sum((base$z - test$z)^2))
+}
+
 ###############################################################################
 #Plot test stat values against samples
 ###############################################################################
@@ -258,6 +290,42 @@ abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
 mtext("L2 Distance vs. Statistic", outer = TRUE, line = -1)
 par(mfrow=c(1,1), oma = c(0,0,0,0))
 dev.off()
+
+partial.rv2.dist <- lapply(Ec.samples, function(x,true) rv2.dist(true,x),partial.true)
+partial.rv2.dist <- do.call(rbind,partial.rv2.dist)
+
+partial.dens2d.dist25 <- lapply(Ec.samples, function(x,true) dens2d.dist(true,x,25),partial.true)
+partial.dens2d.dist25 <- do.call(rbind,partial.dens2d.dist25)
+
+partial.dens2d.dist50 <- lapply(Ec.samples, function(x,true) dens2d.dist(true,x,50),partial.true)
+partial.dens2d.dist50 <- do.call(rbind,partial.dens2d.dist50)
+
+partial.dens2d.dist2550 <- lapply(Ec.samples, function(x,true) dens2d.dist(true,x,c(25,50)),partial.true)
+partial.dens2d.dist2550 <- do.call(rbind,partial.dens2d.dist2550)
+
+pdf("figures/rv2_Ec.pdf")
+plot(Ec.param,partial.rv2.dist, pch = 19, cex = .3, xlab = "Ec",
+     ylab = "rv^2", main = "rv^2 L2 distance vs. Ec")
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+dev.off()
+
+pdf("figures/2D_density_Ec.pdf")
+par(mfrow=c(2,2))
+plot(Ec.param,partial.dens2d.dist25, pch = 19, cex = .3, xlab = "Ec",
+     ylab = "2D Density Distance", main = "n = (25,25)")
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+
+plot(Ec.param,partial.dens2d.dist50, pch = 19, cex = .3, xlab = "Ec",
+     ylab = "2D Density Distance", main = "n = (50,50)")
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+
+plot(Ec.param,partial.dens2d.dist2550, pch = 19, cex = .3, xlab = "Ec",
+     ylab = "2D Density Distance", main = "n = (25,50)")
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+par(mfrow=c(1,1))
+dev.off()
+
+
 # rdens.distances.Ec <- unlist(lapply(Ec.galaxies.r, function(r1,r2,quantiles) radius.densities(quantiles,r1,r2),true.E.r, seq(.1,1,.1)))
 # vdisp.distances.Ec <- lapply(Ec.galaxies.v, function(v1,v2,quantiles) radius.densities(quantiles,v1,v2),true.E.v, seq(.1,1,.1))
 
@@ -293,6 +361,7 @@ full.true <- read.delim("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/data/
 load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/sim_galaxies/samples3_Ec_rlim.R")
 Ec.rlim.list <- sample
 rm(sample)
+#2089 is weird...
 
 full.r <- apply(full.true[,1:3],1,function(y) sqrt(sum(y^2)))
 full.v <- apply(full.true[,4:6],1,function(y) sqrt(sum(y^2)))
@@ -402,9 +471,44 @@ legend(.70,12, legend = c("Smallest 10%", "Smallest 20%", "Smallest 30%","Smalle
        pch = rep(19,8),col = 1:8)
 dev.off()
 
+full.rv2.dist <- lapply(Ec.rlim.samples, function(x,true) rv2.dist(true,x),full.true)
+full.rv2.dist <- do.call(rbind,full.rv2.dist)
+idx <- quantile.indicies.single(full.rv2.dist,seq(.1,1,length.out = 10))
+title <- "RV^2 Distance"
+pdf(file = "figures/rv2_Ecrlim.pdf")
+plot(Ec.rlim.param[idx[[1]],1],Ec.rlim.param[idx[[1]],2], pch = 19, cex = .3,
+     xlab = "Ec", ylab = "rlim", main = title)
+points(Ec.rlim.param[idx[[2]],1],Ec.rlim.param[idx[[2]],2], pch = 19, cex = .3, col = 2)
+points(Ec.rlim.param[idx[[3]],1],Ec.rlim.param[idx[[3]],2], pch = 19, cex = .3, col = 3)
+points(Ec.rlim.param[idx[[4]],1],Ec.rlim.param[idx[[4]],2], pch = 19, cex = .3, col = 4)
+points(Ec.rlim.param[idx[[5]],1],Ec.rlim.param[idx[[5]],2], pch = 19, cex = .3, col = 5)
+points(Ec.rlim.param[idx[[6]],1],Ec.rlim.param[idx[[6]],2], pch = 19, cex = .3, col = 6)
+points(Ec.rlim.param[idx[[7]],1],Ec.rlim.param[idx[[7]],2], pch = 19, cex = .3, col = 7)
+points(Ec.rlim.param[idx[[8]],1],Ec.rlim.param[idx[[8]],2], pch = 19, cex = .3, col = 8)
+legend(.70,12, legend = c("Smallest 10%", "Smallest 20%", "Smallest 30%","Smallest 40%" ,
+                          "Smallest 50%", "Smallest 60%", "Smallest 70%", "Smallest 80%"),
+       pch = rep(19,8),col = 1:8)
+dev.off()
 
+full.dens2d.dist <- lapply(Ec.rlim.samples, function(x,true) dens2d.dist(true,x,25),full.true)
+full.dens2d.dist <- do.call(rbind,full.dens2d.dist)
+idx <- quantile.indicies.single(full.dens2d.dist,seq(.1,1,length.out = 10))
+title <- "2D Density Distance"
 
-
+pdf(file = "figures/2D_density_Ecrlim.pdf")
+plot(Ec.rlim.param[idx[[1]],1],Ec.rlim.param[idx[[1]],2], pch = 19, cex = .3,
+     xlab = "Ec", ylab = "rlim", main = title)
+points(Ec.rlim.param[idx[[2]],1],Ec.rlim.param[idx[[2]],2], pch = 19, cex = .3, col = 2)
+points(Ec.rlim.param[idx[[3]],1],Ec.rlim.param[idx[[3]],2], pch = 19, cex = .3, col = 3)
+points(Ec.rlim.param[idx[[4]],1],Ec.rlim.param[idx[[4]],2], pch = 19, cex = .3, col = 4)
+points(Ec.rlim.param[idx[[5]],1],Ec.rlim.param[idx[[5]],2], pch = 19, cex = .3, col = 5)
+points(Ec.rlim.param[idx[[6]],1],Ec.rlim.param[idx[[6]],2], pch = 19, cex = .3, col = 6)
+points(Ec.rlim.param[idx[[7]],1],Ec.rlim.param[idx[[7]],2], pch = 19, cex = .3, col = 7)
+points(Ec.rlim.param[idx[[8]],1],Ec.rlim.param[idx[[8]],2], pch = 19, cex = .3, col = 8)
+legend(.70,12, legend = c("Smallest 10%", "Smallest 20%", "Smallest 30%","Smallest 40%" ,
+                          "Smallest 50%", "Smallest 60%", "Smallest 70%", "Smallest 80%"),
+       pch = rep(19,8),col = 1:8)
+dev.off()
 
 par(mfrow=c(2,2), oma = c(0,0,1,0))
 plot(Ec.rlim.param[,1],full.ks.dist[,1], pch = 19, cex = .3, xlab = "Ec",

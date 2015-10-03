@@ -814,3 +814,69 @@ ls.distance <-  function(theta, suff.stats){
   ks.v <- sqrt(sum(ks.vec[4:6]^2))
   return(c(ks.r,ks.v))
 }
+
+rv2.distance <-  function(theta, suff.stats){
+  l2.smooth <- function(x1,x2){
+    n <- length(x1)
+    dens1 <- density(x1)
+    dens2 <- density(x2, from = min(dens1$x), to = max(dens1$x), n = length(dens1$x))
+    y1 <- cumsum(dens1$y)/sum(dens1$y)
+    y2 <- cumsum(dens2$y)/sum(dens2$y)
+    return(sqrt(sum((y1-y2)^2)))
+  }
+  rv2.dist <- function(data1,data2){
+    r1 <- apply(data1[,1:3],1,function(y) sqrt(sum(y^2)))
+    v1 <- apply(data1[,4:6],1,function(y) sqrt(sum(y^2)))
+    
+    r2 <- apply(data2[,1:3],1,function(y) sqrt(sum(y^2)))
+    v2 <- apply(data2[,4:6],1,function(y) sqrt(sum(y^2)))
+    
+    x1 <- r1*(v1^2)
+    x2 <- r2*(v2^2)
+    
+    return(l2.smooth(x1,x2))
+  }
+  python.fun <- suff.stats[["python.fun"]]
+  param <- suff.stats[["param"]]
+  steps <- suff.stats[["steps"]]
+  samplesize <- suff.stats[["samplesize"]]
+  resamplefactor <- suff.stats[["resamplefactor"]]
+  
+  data.true <- suff.stats[["data.true"]]
+  indicies <- suff.stats[["indicies"]]
+  param[indicies] <- theta
+  param <- as.numeric(param)
+  
+  data.sim <- do.call(cbind,python.call(python.fun,param,steps,samplesize,resamplefactor))
+  return(rv2.dist(data.true,data.sim))
+}
+
+dens2d.distance <-  function(theta, suff.stats){
+  library(MASS)
+  dens2d.dist <- function(data1,data2,n=25){
+    r1 <- apply(data1[,1:3],1,function(y) sqrt(sum(y^2)))
+    v1 <- apply(data1[,4:6],1,function(y) sqrt(sum(y^2)))
+    r2 <- apply(data2[,1:3],1,function(y) sqrt(sum(y^2)))
+    v2 <- apply(data2[,4:6],1,function(y) sqrt(sum(y^2)))
+    
+    h <- c(bandwidth.nrd(r1),bandwidth.nrd(v1))
+    
+    base <- kde2d(r1,v1,h=h,n=n,lims=c(range(r1),range(v1)))
+    test <- kde2d(r2,v2,h=h,n=n,lims=c(range(r1),range(v1)))
+    
+    return(sum((base$z - test$z)^2))
+  }
+  python.fun <- suff.stats[["python.fun"]]
+  param <- suff.stats[["param"]]
+  steps <- suff.stats[["steps"]]
+  samplesize <- suff.stats[["samplesize"]]
+  resamplefactor <- suff.stats[["resamplefactor"]]
+  
+  data.true <- suff.stats[["data.true"]]
+  indicies <- suff.stats[["indicies"]]
+  param[indicies] <- theta
+  param <- as.numeric(param)
+  
+  data.sim <- do.call(cbind,python.call(python.fun,param,steps,samplesize,resamplefactor))
+  return(dens2d.dist(data.true,data.sim))
+}
