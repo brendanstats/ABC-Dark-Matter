@@ -1,0 +1,38 @@
+-------------------- 
+Session Info 
+-------------------- 
+Start Time: 2015-10-06 01:06:08 
+Initial Samples: 100 
+Required Samples: 10 
+Shrinkage Rate: 0.95 
+Time Steps: 2 
+Prior Functions: prior.Ec 
+Noise Functions: noise.normal.01.1 
+Distance Function: rv2.distance 
+Progress File: test_output/prog.txt 
+Output File: test_output/results.R 
+Python Load Call: ../sampling_functions/functions_0721_E.py 
+-------------------- 
+ 
+-------------------- 
+Time step 1 
+-------------------- 
+Time: 2015-10-06 01:10:57 
+Total Time: 4.80922541618347 
+Step Time: 4.80922541618347 
+Epsilon: 2.020098 
+Drawn Samples: 100 
+Accepted Samples: 10 
+-------------------- 
+ 
+-------------------- 
+Time step 2 
+-------------------- 
+Time: 2015-10-06 01:12:39 
+Total Time: 6.50514568090439 
+Step Time: 1.69592026472092 
+Epsilon: 2.01789 
+Drawn Samples: 33 
+Accepted Samples: 10 
+-------------------- 
+ 

@@ -349,3 +349,85 @@ abc_pmc <- function(suff.stats,n,np,q,steps,prior.funs,noise.funs,distance.fun,
   }
   return(results)
 }
+
+abc_pmc_add <- function(results.prev,
+                        suff.stats,
+                        q,
+                        steps,
+                        prior.funs,
+                        noise.funs,
+                        distance.fun,
+                        parallel=TRUE,
+                        progress=TRUE,
+                        progress.file="progress.txt",
+                        write=FALSE,
+                        write.file="output.R",
+                        .python.load){
+  
+  steps.complete <- length(results)
+  stopifnot(steps.complete < steps)
+  
+  start.time <- Sys.time()
+  
+  thetas <- results[[steps.complete]]$parameters
+  w <- results[[steps.complete]]$weights
+  error <- results[[steps.complete]]$distances
+  epsilon <- apply(error,2,quantile,q)
+  np = length(thetas)
+  
+  ######################################
+  #Output Session Info if recording progress
+  ######################################
+  if(progress){
+    cat("--------------------","\n",file=progress.file,append=TRUE)
+    cat("Session Info","\n",file=progress.file,append=TRUE)
+    cat("--------------------","\n",file=progress.file,append=TRUE)
+    cat(paste("Start Time:",as.character(start.time)),"\n",file=progress.file,append=TRUE)
+    cat("Required Samples:",np,"\n",file=progress.file,append=TRUE)
+    cat("Shrinkage Rate:",q,"\n",file=progress.file,append=TRUE)
+    cat("Complete Time Steps:",steps.complete,"\n",file=progress.file,append=TRUE)
+    cat("Time Steps:",steps,"\n",file=progress.file,append=TRUE)
+    cat("Prior Functions:",prior.funs,"\n",file=progress.file,append=TRUE)
+    cat("Noise Functions:",noise.funs,"\n",file=progress.file,append=TRUE)
+    cat("Distance Function:",as.character(substitute(distance.fun)),"\n",file=progress.file,append=TRUE)
+    cat("Progress File:",progress.file,"\n",file=progress.file,append=TRUE)
+    cat("Output File:",write.file,"\n",file=progress.file,append=TRUE)
+    cat("Python Load Call:",.python.load,"\n",file=progress.file,append=TRUE)
+    cat("--------------------","\n","\n",file=progress.file,append=TRUE)
+  }
+  
+  for(i in (steps.complete+1):steps){
+    results[[i]] <- pmc.step(thetas,w,epsilon,suff.stats,noise.funs,prior.funs,distance.fun,.python.load)
+    cat("abc 7", "\n")
+    
+    ######################################
+    #Output Session Info if recording progress
+    ######################################
+    
+    if(progress){
+      total.time <- results[[i]][["finish.time"]]-start.time
+      step.time <- results[[i]][["finish.time"]]-results[[i-1]][["finish.time"]]
+      cat("--------------------","\n",file=progress.file,append=TRUE)
+      cat("Time step", i, "\n",file=progress.file,append=TRUE)
+      cat("--------------------","\n",file=progress.file,append=TRUE)
+      cat(paste("Time:",as.character(results[[i]][["finish.time"]])),"\n",file=progress.file,append=TRUE)
+      cat(paste("Total Time:",as.character(total.time)),"\n",file=progress.file,append=TRUE)
+      cat(paste("Step Time:",as.character(step.time)),"\n",file=progress.file,append=TRUE)
+      cat("Epsilon:",results[[i]][["epsilon"]],"\n",file=progress.file,append=TRUE)
+      cat("Drawn Samples:",results[[i]][["total.samples"]],"\n",file=progress.file,append=TRUE)
+      cat("Accepted Samples:",np,"\n",file=progress.file,append=TRUE)
+      cat("--------------------","\n","\n",file=progress.file,append=TRUE)
+    }
+    if(write){
+      save(results,file=write.file)
+    }
+    thetas <- results[[i]][["parameters"]]
+    w <- results[[i]][["weights"]]
+    error <- results[[i]][["distances"]]
+    
+    epsilon <- apply(error,2,quantile,q)
+    stopifnot(epsilon>0)
+    
+  }
+  return(results)
+}

@@ -1,0 +1,16 @@
+-------------------- 
+Session Info 
+-------------------- 
+Start Time: 2015-10-06 01:21:19 
+Required Samples: 1000 
+Shrinkage Rate: 0.8 
+Complete Time Steps: 30 
+Time Steps: 40 
+Prior Functions: prior.Ec 
+Noise Functions: noise.normal.01.1 
+Distance Function: rv2.distance 
+Progress File: rv2_output/progress_add.txt 
+Output File: rv2_output/results_add.R 
+Python Load Call: ../sampling_functions/functions_0721_E.py 
+-------------------- 
+ 
