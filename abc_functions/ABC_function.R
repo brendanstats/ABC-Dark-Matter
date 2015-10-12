@@ -360,7 +360,7 @@ abc_pmc_add <- function(results.prev,
                         parallel=TRUE,
                         progress=TRUE,
                         progress.file="progress.txt",
-                        write=FALSE,
+                        write=TRUE,
                         write.file="output.R",
                         .python.load){
   
@@ -406,7 +406,7 @@ abc_pmc_add <- function(results.prev,
     
     if(progress){
       total.time <- results[[i]][["finish.time"]]-start.time
-      step.time <- results[[i]][["finish.time"]]-results[[i-1]][["finish.time"]]
+      step.time <- ifelse(i == steps.complete+1, total.time, results[[i]][["finish.time"]]-results[[i-1]][["finish.time"]])
       cat("--------------------","\n",file=progress.file,append=TRUE)
       cat("Time step", i, "\n",file=progress.file,append=TRUE)
       cat("--------------------","\n",file=progress.file,append=TRUE)
@@ -414,7 +414,7 @@ abc_pmc_add <- function(results.prev,
       cat(paste("Total Time:",as.character(total.time)),"\n",file=progress.file,append=TRUE)
       cat(paste("Step Time:",as.character(step.time)),"\n",file=progress.file,append=TRUE)
       cat("Epsilon:",results[[i]][["epsilon"]],"\n",file=progress.file,append=TRUE)
-      cat("Drawn Samples:",results[[i]][["total.samples"]],"\n",file=progress.file,append=TRUE)
+      cat("Drawn Samples:",sum(results[[i]][["total.samples"]]),"\n",file=progress.file,append=TRUE)
       cat("Accepted Samples:",np,"\n",file=progress.file,append=TRUE)
       cat("--------------------","\n","\n",file=progress.file,append=TRUE)
     }

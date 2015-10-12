@@ -1,7 +1,7 @@
 -------------------- 
 Session Info 
 -------------------- 
-Start Time: 2015-10-06 01:21:19 
+Start Time: 2015-10-07 11:53:33 
 Required Samples: 1000 
 Shrinkage Rate: 0.8 
 Complete Time Steps: 30 
@@ -12,5 +12,71 @@ Distance Function: rv2.distance
 Progress File: rv2_output/progress_add.txt 
 Output File: rv2_output/results_add.R 
 Python Load Call: ../sampling_functions/functions_0721_E.py 
+-------------------- 
+ 
+-------------------- 
+Time step 31 
+-------------------- 
+Time: 2015-10-07 21:18:56 
+Total Time: 9.4230444385608 
+Step Time: 2.5075324500904 
+Epsilon: 0.04811158 
+Drawn Samples: 35167 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 32 
+-------------------- 
+Time: 2015-10-08 07:08:47 
+Total Time: 19.253664907217 
+Step Time: 9.83062046865622 
+Epsilon: 0.04659696 
+Drawn Samples: 41233 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 33 
+-------------------- 
+Time: 2015-10-08 18:42:49 
+Total Time: 1.2842079855888 
+Step Time: 11.5673267469141 
+Epsilon: 0.04499605 
+Drawn Samples: 48425 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 34 
+-------------------- 
+Time: 2015-10-09 08:52:43 
+Total Time: 1.87441547176904 
+Step Time: 14.1649796683258 
+Epsilon: 0.04326697 
+Drawn Samples: 59306 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 35 
+-------------------- 
+Time: 2015-10-10 03:32:31 
+Total Time: 2.65205623590284 
+Step Time: 18.6633783392111 
+Epsilon: 0.04161901 
+Drawn Samples: 77526 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 36 
+-------------------- 
+Time: 2015-10-11 01:52:57 
+Total Time: 3.58290839382896 
+Step Time: 22.3404517902268 
+Epsilon: 0.04031441 
+Drawn Samples: 94021 
+Accepted Samples: 1000 
 -------------------- 
  
