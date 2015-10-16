@@ -4,6 +4,8 @@
 #July 28, 2015
 ###################
 
+#change ~line 4
+
 setwd("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/posterior_calculations")
 
 #########################################################
@@ -37,7 +39,8 @@ hprob <- function(v, x, a = 2.0, d = -5.3, e = 2.5, Ec = .16, r.lim = 1.5,
   if(E<phi.lim){
     hE <- E^a*(E^q+Ec^q)^(d/q)*(phi.lim-E)^e
   } else hE = 0
-  return(hE*v^2*x^2)
+  #return(hE*v^2*x^2)
+  return(hE*v^2*x^2*r.s)
 }
 
 hprob.vec.v <- Vectorize(hprob, vectorize.args = "v")
@@ -161,7 +164,7 @@ Ec.posterior <- density.adj.Ec(Ec=Ec.grid, xv=xv, adj = Ec.mle.full$value)/denom
 
 # #Plot posterior density
 # pdf(file="Analytic_Posterior.pdf")
-# plot(Ec.grid,posterior,"l", ylab = "Posterior Density", xlab = "Ec", main="Posterior Density")
+# plot(Ec.grid,Ec.posterior,"l", ylab = "Posterior Density", xlab = "Ec", main="Posterior Density")
 # abline(v=.16, lty=2,lwd=2)
 # dev.off()
 # 
@@ -171,59 +174,3 @@ Ec.posterior <- density.adj.Ec(Ec=Ec.grid, xv=xv, adj = Ec.mle.full$value)/denom
 # dev.off()
 
 save(Ec.grid,Ec.posterior,Ec.mle.full,file="posterior_Ec_results.R")
-
-###################
-#Compare with run #1
-###################
-load("Posterior_Results.R")
-load("Ec_all_15_add_results.R")
-n <- length(results)
-parameters <- lapply(results,function(x) x[["parameters"]])
-# weights <-do.call(cbind,lapply(results,function(x) x[["weights"]]))
-# distances <- do.call(cbind,lapply(results,function(x) x[["distances"]]))
-# samples <- do.call(cbind,lapply(results,function(x) x[["total.samples"]]))
-# cutoff <- do.call(rbind,lapply(results,function(x) x[["epsilon"]]))
-
-pdf(file="Posterior_Comparison.pdf")
-plot(density(results[[16]][["parameters"]]),lwd = 2, ylim=c(0,250),
-     main="Density of Parameter \"Ec\"", xlim=c(.13,.18),lty=2)
-lines(Ec.grid,posterior,lwd = 2)
-#abline(v=.16, lty=3,lwd=2)
-abline(v=mle.full$par, lty=3,lwd=2)
-legend(x=.13,y=230,
-       legend=c("Analytic Posterior", "ABC Posterior", "MLE"),
-       lty=1:3, lwd = rep(2,3))
-dev.off()
-
-pdf(file="ABC_Densities.pdf")
-plot(density(parameters[[1]]),lwd = 2, ylim=c(0,150),
-     xlim = c(.1,.22),
-     main=expression(paste("Density of Ec")),
-     xlab = expression(paste("Ec")))
-for(i in 2:5){
-  lines(density(parameters[[seq(0,16,4)[i]]]),lwd = 2,col=i)
-}
-abline(v=.16,lwd=2,col=1,lty=2)
-abline(v=mle.full$par,lwd=2,col=1,lty=3)
-legend(x=.18,y=150,
-       legend=c(paste("Time Step",c(1,seq(4,16,4))),"True Value", "MLE"),
-       col = c(1:5,1,1), lty=c(rep(1,5),2,3), lwd = rep(2,5+2))
-dev.off()
-
-pdf(file="ABC_Densities_tail.pdf")
-start <- 12
-series <- n - start + 1
-plot(density(parameters[[start]]),lwd = 2, ylim=c(0,150),
-     main=expression(paste("Density of Ec")),
-     xlab = expression(paste("Ec")), col = 1)
-for(i in (start+1):n){
-  lines(density(parameters[[i]]),lwd = 2,col=i-start+1)
-}
-abline(v=.16,lwd=2,col=1,lty=2)
-abline(v=mle.full$par,lwd=2,col=1,lty=3)
-legend(x=.162,y=150,
-       legend=c(paste("Time Step",as.character(start:n)),"True Value", "MLE"),
-       col = c(1:series,1,1), lty=c(rep(1,series),2,3), lwd = rep(2,series+2))
-dev.off()
-
-plot(2:16,apply(samples,2,sum)[-1])

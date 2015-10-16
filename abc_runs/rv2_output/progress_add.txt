@@ -80,3 +80,36 @@ Drawn Samples: 94021
 Accepted Samples: 1000 
 -------------------- 
  
+-------------------- 
+Time step 37 
+-------------------- 
+Time: 2015-10-12 07:44:26 
+Total Time: 4.82699279426977 
+Step Time: 1.24408440044081 
+Epsilon: 0.03887392 
+Drawn Samples: 124772 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 38 
+-------------------- 
+Time: 2015-10-13 22:25:37 
+Total Time: 6.43893462298645 
+Step Time: 1.61194182871668 
+Epsilon: 0.03774704 
+Drawn Samples: 161452 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 39 
+-------------------- 
+Time: 2015-10-15 18:08:05 
+Total Time: 8.26009018037054 
+Step Time: 1.82115555738409 
+Epsilon: 0.03673015 
+Drawn Samples: 182204 
+Accepted Samples: 1000 
+-------------------- 
+ 

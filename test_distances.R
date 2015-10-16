@@ -5,6 +5,8 @@
 library(MASS)
 library(rPython)
 library(ggplot2)
+library(latex2exp)
+
 python.load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/sampling_functions/functions_0721.py")
 
 # time.eval <- function(param,samplesize,steps,resamplefactor){
@@ -202,6 +204,37 @@ dens2d.dist <- function(data1,data2,n=25){
   return(sum((base$z - test$z)^2))
 }
 
+#######################################
+#
+#######################################
+
+param <- c(2.0,-5.3, 2.5, 0.16, 1.5, -9.0, 6.9, 0.086, 21.0, 1.5,1 ,3 ,1)
+
+phi.s <- (param[9]/.465)^2
+r.s <- param[10]/2.16  
+
+E <- function(rv,phi.s,r.s){
+  x <- rv[,1]/r.s
+  return(rv[,2]^2/2+phi.s*(1-log(1+x)/x))
+}
+
+q <- param[7] 
+
+zero.deriv <- function(Ec,q,phi.s,ener){
+  return((q-Ec*phi.s)*(Ec*phi.s)^(q-1) - ener^q)
+}
+
+x <- seq(0,1,length=1000)
+y <- numeric(1000)
+for(ii in x){
+  y[ii] <- zero.deriv(x[ii],q,phi.s,E(cbind(partial.r,partial.v),phi.s,r.s)[1])
+}
+
+uniroot(zero.deriv,interval = c(0,1),q=q,phi.s=phi.s,ener=E(cbind(partial.r,partial.v),phi.s,r.s)[1])
+
+phi.lim <- +phi.s*(1-log(1+2.16)/2.16)
+E(cbind(partial.r,partial.v),phi.s,r.s)[1]
+
 ###############################################################################
 #Plot test stat values against samples
 ###############################################################################
@@ -228,17 +261,17 @@ partial.ks.smooth.dist <- do.call(rbind,partial.ks.smooth.dist)
 
 pdf(file = "Figures/KS_Distance_Comparison.pdf")
 par(mfrow=c(2,2), oma = c(0,0,1,0))
-plot(Ec.param,partial.ks.dist[,1], pch = 19, cex = .3, xlab = "Ec",
-     ylab = "Radius KS Distance")
+plot(Ec.param,partial.ks.dist[,1], pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "Radius KS Distance")
 abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
-plot(Ec.param,partial.ks.smooth.dist[,1], pch = 19, cex = .3, xlab = "Ec",
-     ylab = "Smoothed Radius KS Distance")
+plot(Ec.param,partial.ks.smooth.dist[,1], pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "Smoothed Radius KS Distance")
 abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
-plot(Ec.param,partial.ks.dist[,2], pch = 19, cex = .3, xlab = "Ec",
-     ylab = "Velocity KS Distance")
+plot(Ec.param,partial.ks.dist[,2], pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "Velocity KS Distance")
 abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
-plot(Ec.param,partial.ks.smooth.dist[,2], pch = 19, cex = .3, xlab = "Ec",
-     ylab = "Smoothed Velocity KS Distance")
+plot(Ec.param,partial.ks.smooth.dist[,2], pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "Smoothed Velocity KS Distance")
 abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
 mtext("KS Distance Smooth vs. Unsmoothed", outer = TRUE, line = -1)
 par(mfrow=c(1,1), oma = c(0,0,0,0))
@@ -268,6 +301,19 @@ mtext("KS Statistic Smooth vs. Unsmoothed", outer = TRUE, line = -1)
 par(mfrow=c(1,1), oma = c(0,0,0,0))
 dev.off()
 
+pdf(file = "Figures/KS_Smooth_Radius.pdf")
+plot(Ec.param,partial.ks.smooth.r, pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "",
+     main = latex2exp('Smoothed KS Distance - Radius'))
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+dev.off()
+pdf(file = "Figures/KS_Smooth_Velocity.pdf")
+plot(Ec.param,partial.ks.smooth.v, pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "",
+     main = latex2exp('Smoothed KS Distance - Velocity'))
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+dev.off()
+
 partial.l2.dist <- lapply(Ec.samples, function(x,true) l2.dist(true,x),partial.true)
 partial.l2.dist <- do.call(rbind,partial.l2.dist)
 partial.l2.r <- unlist(lapply(Ec.samples.r, function(x,true) l2.smooth(true,x),partial.r))
@@ -291,6 +337,19 @@ mtext("L2 Distance vs. Statistic", outer = TRUE, line = -1)
 par(mfrow=c(1,1), oma = c(0,0,0,0))
 dev.off()
 
+pdf(file = "Figures/L2_Radius.pdf")
+plot(Ec.param,partial.l2.r, pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "",
+     main = latex2exp('$L^2$  Distance - Radius'))
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+dev.off()
+pdf(file = "Figures/L2_Velocity.pdf")
+plot(Ec.param,partial.l2.v, pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "",
+     main = latex2exp('$L^2$  Distance - Velocity'))
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+dev.off()
+
 partial.rv2.dist <- lapply(Ec.samples, function(x,true) rv2.dist(true,x),partial.true)
 partial.rv2.dist <- do.call(rbind,partial.rv2.dist)
 
@@ -303,11 +362,20 @@ partial.dens2d.dist50 <- do.call(rbind,partial.dens2d.dist50)
 partial.dens2d.dist2550 <- lapply(Ec.samples, function(x,true) dens2d.dist(true,x,c(25,50)),partial.true)
 partial.dens2d.dist2550 <- do.call(rbind,partial.dens2d.dist2550)
 
-pdf("figures/rv2_Ec.pdf")
-plot(Ec.param,partial.rv2.dist, pch = 19, cex = .3, xlab = "Ec",
-     ylab = "rv^2", main = "rv^2 L2 distance vs. Ec")
+pdf("figures/2d.pdf")
+plot(Ec.param,partial.dens2d.dist25, pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "",
+     main = latex2exp('2D Density Distance'))
 abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
 dev.off()
+
+pdf("figures/rv2.pdf")
+plot(Ec.param,partial.rv2.dist, pch = 19, cex = .3,
+     xlab = latex2exp('$E_c$'), ylab = "",
+     main = latex2exp('$rv^2$ Distance'))
+abline(v=Ec.mle.full$par, lty = 2, lwd = 1)
+dev.off()
+
 
 pdf("figures/2D_density_Ec.pdf")
 par(mfrow=c(2,2))
@@ -474,10 +542,10 @@ dev.off()
 full.rv2.dist <- lapply(Ec.rlim.samples, function(x,true) rv2.dist(true,x),full.true)
 full.rv2.dist <- do.call(rbind,full.rv2.dist)
 idx <- quantile.indicies.single(full.rv2.dist,seq(.1,1,length.out = 10))
-title <- "RV^2 Distance"
+title <- latex2exp('$rv^2$ Distance')
 pdf(file = "figures/rv2_Ecrlim.pdf")
 plot(Ec.rlim.param[idx[[1]],1],Ec.rlim.param[idx[[1]],2], pch = 19, cex = .3,
-     xlab = "Ec", ylab = "rlim", main = title)
+     xlab = latex2exp('$E_c$'), ylab = latex2exp('$r_{lim}$'), main = title)
 points(Ec.rlim.param[idx[[2]],1],Ec.rlim.param[idx[[2]],2], pch = 19, cex = .3, col = 2)
 points(Ec.rlim.param[idx[[3]],1],Ec.rlim.param[idx[[3]],2], pch = 19, cex = .3, col = 3)
 points(Ec.rlim.param[idx[[4]],1],Ec.rlim.param[idx[[4]],2], pch = 19, cex = .3, col = 4)

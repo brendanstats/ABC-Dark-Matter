@@ -116,16 +116,26 @@ rm(results)
 Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
 Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
 
-pdf(file="figures/rv2_add_posteriors.pdf")
+pdf(file="figures/rv2_posteriors.pdf")
 compare.posterior(parameters = Ec.parameters, weights = Ec.weights, 
                   title = latex2exp('$rv^2$ Posterior Comparison'),
-                  plot.seq = c(36,33,25,20,15,10), col.seq = c(3, 4, 2, 5, 6,7),
+                  plot.seq = c(39,33,25,20,15,10), col.seq = c(3, 4, 2, 5, 6,7),
                   legend.x = .1596, legend.y = 250, ylim = c(0,250),
                   xlab = latex2exp('$E_c$'), post.x = Ec.grid,
                   post.y = Ec.posterior, mle = Ec.mle.full$par)
 dev.off()
-plot(1:36,log(unlist(lapply(Ec.parameters,function(x) max(density(x)$y)))))
-plot(1:36,unlist(lapply(Ec.parameters,function(x) max(density(x)$y))))
+
+pdf(file="figures/rv2_tail_posteriors.pdf")
+compare.posterior(parameters = Ec.parameters, weights = Ec.weights, 
+                  title = latex2exp('$rv^2$ Posterior Comparison'),
+                  plot.seq = c(39,38,37,36,35,34), col.seq = c(3, 4, 2, 5, 6,7),
+                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
+                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
+                  post.y = Ec.posterior, mle = Ec.mle.full$par)
+dev.off()
+
+plot(1:37,log(unlist(lapply(Ec.parameters,function(x) max(density(x)$y)))))
+plot(1:37,unlist(lapply(Ec.parameters,function(x) max(density(x)$y))))
 
 
 load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/rv2dens_output/results.R")
@@ -133,16 +143,34 @@ Ec.results <- results
 rm(results)
 Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
 Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
+Ec.dist <- lapply(Ec.results, function(x) x[["distances"]])
 
 pdf(file="figures/rv2dens_posteriors.pdf")
 compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
                   title = latex2exp('$rv^2$ and 2D Density Posterior Comparison'),
-                  plot.seq = c(22,21,20,15,10,5), col.seq = c(3, 4, 2, 5, 6,7),
+                  plot.seq = c(25,24,20,15,10,5), col.seq = c(3, 4, 2, 5, 6,7),
                   legend.x = .1596, legend.y = 250, ylim = c(0,250),
                   xlab = latex2exp('$E_c$'), post.x = Ec.grid,
                   post.y = Ec.posterior, mle = Ec.mle.full$par)
 dev.off()
 
-plot(1:22,log(unlist(lapply(Ec.parameters,function(x) max(density(x)$y)))))
-plot(1:22,unlist(lapply(Ec.parameters,function(x) max(density(x)$y))))
-hist(Ec.weights[[22]])
+pdf(file="figures/rv2dens_scale_posteriors.pdf")
+compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
+                  title = latex2exp('$rv^2$ and 2D Density Posterior Comparison Scaled by $r_s$'),
+                  plot.seq = c(24,23,20,15,10,5), col.seq = c(3, 4, 2, 5, 6,7),
+                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
+                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
+                  post.y = Ec.posterior*rs, mle = Ec.mle.full$par)
+dev.off()
+
+n <- 16
+par(mfrow=c(2,2))
+hist(Ec.dist[[n]][,1])
+hist(Ec.dist[[n]][,2])
+plot(density(Ec.dist[[n]][,1]))
+plot(density(Ec.dist[[n]][,2]))
+par(mfrow=c(1,1))
+
+plot(1:25,log(unlist(lapply(Ec.parameters,function(x) max(density(x)$y)))),"l")
+plot(1:25,unlist(lapply(Ec.parameters,function(x) max(density(x)$y))),"l")
+hist(Ec.weights[[25]])
