@@ -220,6 +220,8 @@ abc_pmc <- function(suff.stats,n,np,q,steps,prior.funs,noise.funs,distance.fun,
     cat("Progress File:",progress.file,"\n",file=progress.file,append=TRUE)
     cat("Output File:",write.file,"\n",file=progress.file,append=TRUE)
     cat("Python Load Call:",.python.load,"\n",file=progress.file,append=TRUE)
+    cat("Sampling Function:",suff.stats[["python.fun"]],"\n",file=progress.file,append=TRUE)
+    cat("Default Parameters:",suff.stats[["param"]],"\n",file=progress.file,append=TRUE)
     cat("--------------------","\n","\n",file=progress.file,append=TRUE)
   }
   

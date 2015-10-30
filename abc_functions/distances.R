@@ -948,6 +948,11 @@ rv2.dens2d.distance <-  function(theta, suff.stats){
   param[indicies] <- theta
   param <- as.numeric(param)
   
-  data.sim <- do.call(cbind,python.call(python.fun,param,steps,samplesize,resamplefactor))
+  if(python.fun == "sampleR"){
+    data.sim <- do.call(cbind,python.call(python.fun,param,samplesize))
+  }else if(python.fun == "sample3R"){
+    data.sim <- do.call(cbind,python.call(python.fun,param,steps,samplesize,resamplefactor))
+  }
+  
   return(c(rv2.dist(data.true,data.sim),dens2d.dist(data.true,data.sim)))
 }

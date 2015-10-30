@@ -409,8 +409,6 @@ def findmax2(param, xi,xf, vri, vrf, vti, vtf, steps = 10):
         return xm, vrm, vtm, fm #max(flist)
 
 
-
-
 def sample( param = [2.0, -5.3, 2.5, 0.16, 1.5, -9.0, 6.9, 0.086, 21.0, 1.5, 1,3,1], samplesize = 3000):
 
 	a,d,e, Ec, rlim, b, q, Jb, Vmax, rmax, alpha, beta, gamma = param
@@ -446,6 +444,44 @@ def sample( param = [2.0, -5.3, 2.5, 0.16, 1.5, -9.0, 6.9, 0.086, 21.0, 1.5, 1,3
 	        aux = aux + 1
 	print "acceptance rate: ", num/(aux+0.00001)
 	return convert(samplelist, rs)
+
+def sampleR( param = [2.0, -5.3, 2.5, 0.16, 1.5, -9.0, 6.9, 0.086, 21.0, 1.5, 1,3,1], samplesize = 3000):
+
+	a,d,e, Ec, rlim, b, q, Jb, Vmax, rmax, alpha, beta, gamma = param
+	rs    = rmax/2.16	# rmax=2.16*rs
+
+	#xm0, vrm0, vtm0, fmax0 = findmax(param)
+        xm,vrm, vtm = scipy.optimize.fmin(lambda (x,vr,vt): -fprob(x,vr,vt, param), (0.1,1,1), maxiter=999999)
+	fmax1 = 0 #*fmax0
+        fmax2 = 1.1*fprob(xm, vrm, vtm, param)
+	fmax  = max([fmax1, fmax2])
+        #print "fmax: ", fmax1, fmax2
+
+	samplelist = []
+	num = 1
+	aux = 1
+	while (num <= samplesize):
+
+	        x = rlim * rand.random() / rs
+		x0 = 10**-8
+	        vmax0 = vesc(x0, [rlim, Vmax, rmax, alpha, beta, gamma])
+        	vr    = vmax0 * rand.random()
+		vt    = vmax0 * rand.random()
+
+                u  = rand.random() #new *fmax 
+		fi = fprob(x, vr, vt, param)
+		gi = fmax
+        	if (fi/gi >= u): #new
+                	samplelist.append( [x,vr,vt] )
+                	num = num + 1
+		if (fi/gi > 1.0):
+                        print num, 'Warning old: f(x)/g(x) > 1', fi, gi
+
+	        aux = aux + 1
+	print "acceptance rate: ", num/(aux+0.00001)
+	#return convert(samplelist, rs)
+	samples = convert(samplelist, rs)
+	return [list(samples[0]),list(samples[1]),list(samples[2]),list(samples[3]),list(samples[4]),list(samples[5])]
 	'''belong is not needed
 	samplelist = np.asarray(samplelist)
 	xarr  = samplelist[:,0]

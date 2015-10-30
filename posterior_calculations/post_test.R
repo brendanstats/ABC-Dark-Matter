@@ -1,8 +1,10 @@
+setwd("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/posterior_calculations")
+
 a <- 2.0
 d <- -5.3
 e <- 2.5
 Ec <- .16
-r.lim <- 1.5
+rlim <- 1.5
 b <- -9.0
 q <- 6.9
 Jb <- 8.6*10^(-2)
@@ -11,7 +13,6 @@ rmax <- 1.5
 
 phi.s <- (vmax/.465)^2
 r.s <- rmax/2.16
-xlim <- r.lim / r.s
 
 Phi <- function(r, vmax=21, rmax = 1.5){
   PhiS <- (vmax/.465)^2
@@ -36,9 +37,9 @@ hE <- function(r,v,a = 2.0, d = -5.3, e = 2.5, Ec = .16, rlim = 1.5, b = -9.0,
 
 dens.inner <- function(v, r, a = 2.0, d = -5.3, e = 2.5, Ec = .16, rlim = 1.5,
                        b = -9.0,q = 6.9, Jb = 8.6*10^(-2), vmax = 21, rmax = 1.5){
-  n <- length(v)
-  out <- lapply(1:n, function(ii) hE(r,v[ii],a=a, d=d, e=e, Ec=Ec, rlim=rlim,q=q, b=b,
-                                    Jb=Jb, vmax=vmax, rmax=rmax)*r^2*v[ii]^2)
+
+  out <- lapply(v, function(vel) hE(r,vel,a=a, d=d, e=e, Ec=Ec, rlim=rlim,q=q, b=b,
+                                    Jb=Jb, vmax=vmax, rmax=rmax)*r^2*vel^2)
   return(unlist(out))
 }
 
@@ -53,8 +54,7 @@ int.inner <- function(r, a = 2.0, d = -5.3, e = 2.5, Ec = .16, rlim = 1.5,
 
 dens.outer <- function(r, a = 2.0, d = -5.3, e = 2.5, Ec = .16, rlim = 1.5,
                        b = -9.0,q = 6.9, Jb = 8.6*10^(-2), vmax = 21, rmax = 1.5){
-  n <- length(r)
-  out <- lapply(1:n, function(ii) int.inner(r[ii],a=a, d=d, e=e, Ec=Ec, rlim=rlim,q=q, b=b,
+  out <- lapply(r, function(rad) int.inner(rad, a=a, d=d, e=e, Ec=Ec, rlim=rlim,q=q, b=b,
                                      Jb=Jb, vmax=vmax, rmax=rmax))
   return(unlist(out))
 }
@@ -74,7 +74,7 @@ for(ii in 1:500){
   y[ii] <- int.outer(Ec = Ec.grid[ii])
 }
 
-a = 2.0, d = -5.3, e = 2.5, Ec = .16, rlim = 1.5,
-b = -9.0,q = 6.9, Jb = 8.6*10^(-2), vmax = 21, rmax = 1.5
-a=a, d=d, e=e, Ec=Ec, rlim=rlim,
-q=q, b=b, Jb=Jb, vmax=vmax, rmax=rmax
+# a = 2.0, d = -5.3, e = 2.5, Ec = .16, rlim = 1.5,
+# b = -9.0,q = 6.9, Jb = 8.6*10^(-2), vmax = 21, rmax = 1.5
+# a=a, d=d, e=e, Ec=Ec, rlim=rlim,
+# q=q, b=b, Jb=Jb, vmax=vmax, rmax=rmax

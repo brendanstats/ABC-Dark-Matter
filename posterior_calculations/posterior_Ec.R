@@ -160,17 +160,20 @@ xv <- cbind(x,v)
 Ec.mle.full <- optim(.16,nll.norm.Ec,xv=xv, method = 'L-BFGS-B', lower = .01, upper = 1)
 denom.int <- integrate(density.adj.Ec,lower=.1, upper=.3,xv=xv, adj = Ec.mle.full$value)$value
 
-Ec.posterior <- density.adj.Ec(Ec=Ec.grid, xv=xv, adj = Ec.mle.full$value)/denom.int
+Ec.posterior.full <- density.adj.Ec(Ec=Ec.grid, xv=xv, adj = Ec.mle.full$value)/denom.int
 
-# #Plot posterior density
-# pdf(file="Analytic_Posterior.pdf")
-# plot(Ec.grid,Ec.posterior,"l", ylab = "Posterior Density", xlab = "Ec", main="Posterior Density")
-# abline(v=.16, lty=2,lwd=2)
-# dev.off()
-# 
-# pdf(file="Analytic_Posterior_Zoom.pdf")
-# plot(Ec.grid,posterior,"l", xlim = c(.14,.18), ylab = "Posterior Density", xlab = "Ec", main="Posterior Density")
-# abline(v=.16, lty=2,lwd=2)
-# dev.off()
+data.E <- read.delim("../data/simulated_galaxy_reduced_model_3.txt")
 
-save(Ec.grid,Ec.posterior,Ec.mle.full,file="posterior_Ec_results.R")
+r <- sqrt(data.E[,1]^2+data.E[,2]^2+data.E[,3]^2)
+x <- r / r.s
+v <- sqrt(data.E[,4]^2+data.E[,5]^2+data.E[,6]^2)
+xv <- cbind(x,v)
+
+#MLE Adjustment
+Ec.mle.reduced <- optim(.16,nll.norm.Ec,xv=xv, method = 'L-BFGS-B', lower = .01, upper = 1)
+denom.int <- integrate(density.adj.Ec,lower=.1, upper=.3,xv=xv, adj = Ec.mle.reduced$value)$value
+
+Ec.posterior.reduced <- density.adj.Ec(Ec=Ec.grid, xv=xv, adj = Ec.mle.reduced$value)/denom.int
+
+save(Ec.grid, Ec.posterior.full, Ec.mle.full,
+     Ec.posterior.reduced, Ec.mle.reduced, file="posterior_Ec_results.R")

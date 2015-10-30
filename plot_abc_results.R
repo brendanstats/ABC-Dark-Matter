@@ -32,145 +32,49 @@ setwd("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code")
 load("posterior_calculations/posterior_Ec_results.R")
 library(latex2exp)
 
-load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/Ec_output/results.R")
-Ec.results <- results
-rm(results)
-Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
-Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
-
-pdf(file="figures/KS_posteriors_new.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
-                  title = "KS Statistic Posterior Comparison",
-                  plot.seq = c(30,25,20,15,10), col.seq = c(3, 4, 2, 5, 6),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
-dev.off()
-
-load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/Ecs_output/results.R")
-Ec.results <- results
-rm(results)
-Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
-Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
-
-pdf(file="figures/Smooth_KS_posteriors.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
-                  title = "Smoothed KS Statistic Posterior Comparison",
-                  plot.seq = c(20,16,12,8,4), col.seq = c(3, 4, 2, 5, 6),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
-dev.off()
-
-load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/Ecl2_output/results.R")
-Ec.results <- results
-rm(results)
-Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
-Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
-
-pdf(file="figures/L2_posteriors.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
-                  title = latex2exp('$L^2$ Norm Statistic Posterior Comparison'),
-                  plot.seq = c(20,16,12,8,4), col.seq = c(3, 4, 2, 5, 6),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
-dev.off()
-
-
-load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/rv2_output/results.R")
-Ec.results <- results
-rm(results)
-Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
-Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
-
-pdf(file="figures/rv2_posteriors.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
-                  title = latex2exp('$rv^2$ Posterior Comparison'),
-                  plot.seq = c(30,25,20,15,10), col.seq = c(3, 4, 2, 5, 6),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
-dev.off()
-
-
-load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/dens2d_output/results.R")
-Ec.results <- results
-rm(results)
-Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
-Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
-
-pdf(file="figures/dens2d_posteriors.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
-                  title = "2D Density Posterior Comparison",
-                  plot.seq = c(30,25,20,15,10), col.seq = c(3, 4, 2, 5, 6),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
-dev.off()
-
-
-load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/rv2_output/results_add.R")
-Ec.results <- results
-rm(results)
-Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
-Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
-
-pdf(file="figures/rv2_posteriors.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights, 
-                  title = latex2exp('$rv^2$ Posterior Comparison'),
-                  plot.seq = c(39,33,25,20,15,10), col.seq = c(3, 4, 2, 5, 6,7),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
-dev.off()
-
-pdf(file="figures/rv2_tail_posteriors.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights, 
-                  title = latex2exp('$rv^2$ Posterior Comparison'),
-                  plot.seq = c(39,38,37,36,35,34), col.seq = c(3, 4, 2, 5, 6,7),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
-dev.off()
-
-plot(1:37,log(unlist(lapply(Ec.parameters,function(x) max(density(x)$y)))))
-plot(1:37,unlist(lapply(Ec.parameters,function(x) max(density(x)$y))))
-
-
-load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/rv2dens_output/results.R")
+load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/rv2dens3_output/results.R")
 Ec.results <- results
 rm(results)
 Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
 Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
 Ec.dist <- lapply(Ec.results, function(x) x[["distances"]])
 
-pdf(file="figures/rv2dens_posteriors.pdf")
-compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
-                  title = latex2exp('$rv^2$ and 2D Density Posterior Comparison'),
-                  plot.seq = c(25,24,20,15,10,5), col.seq = c(3, 4, 2, 5, 6,7),
-                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
-                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior, mle = Ec.mle.full$par)
+pdf("figures/true_posterior_comparison.pdf")
+plot(Ec.grid, Ec.posterior.reduced, col = 2, "l", xlim = c(.14, .177),
+     xlab = latex2exp('$E_c$'), ylab = "Posterior Density",
+     main = "True Posterior Comparison")
+lines(Ec.grid, Ec.posterior.full, col = 4)
+legend(.140, 240, legend = c("Precise Model", "Fast Model"),
+       col = c(4, 2), lty = c(1,1))
 dev.off()
 
-pdf(file="figures/rv2dens_scale_posteriors.pdf")
+pdf("figures/fast_model.pdf")
 compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
-                  title = latex2exp('$rv^2$ and 2D Density Posterior Comparison Scaled by $r_s$'),
-                  plot.seq = c(24,23,20,15,10,5), col.seq = c(3, 4, 2, 5, 6,7),
+                  title = latex2exp('$rv^2$ and 2D Density Posterior Comparison - Fast Model'),
+                  plot.seq = c(26,25,20,15,10,5), col.seq = c(3, 4, 2, 5, 6, 7),
                   legend.x = .1596, legend.y = 250, ylim = c(0,250),
                   xlab = latex2exp('$E_c$'), post.x = Ec.grid,
-                  post.y = Ec.posterior*rs, mle = Ec.mle.full$par)
+                  post.y = Ec.posterior.reduced, mle = Ec.mle.reduced$par)
+
+plot(1:length(Ec.parameters),unlist(lapply(Ec.parameters, function(x) max(density(x)$y))),
+     "l", xlab = "Time Step", ylab = "Maximum Density", main = "Fast Model")
 dev.off()
 
-n <- 16
-par(mfrow=c(2,2))
-hist(Ec.dist[[n]][,1])
-hist(Ec.dist[[n]][,2])
-plot(density(Ec.dist[[n]][,1]))
-plot(density(Ec.dist[[n]][,2]))
-par(mfrow=c(1,1))
+pdf("figures/precise_model.pdf")
+load("/Users/Brendan/Google Drive/2015_S2_Fall/ADA/code/abc_runs/rv2densslow_output/results.R")
+Ec.results <- results
+rm(results)
+Ec.parameters <- lapply(Ec.results, function(x) x[["parameters"]])
+Ec.weights <- lapply(Ec.results, function(x) x[["weights"]])
+Ec.dist <- lapply(Ec.results, function(x) x[["distances"]])
 
-plot(1:25,log(unlist(lapply(Ec.parameters,function(x) max(density(x)$y)))),"l")
-plot(1:25,unlist(lapply(Ec.parameters,function(x) max(density(x)$y))),"l")
-hist(Ec.weights[[25]])
+compare.posterior(parameters = Ec.parameters, weights = Ec.weights,
+                  title = latex2exp('$rv^2$ and 2D Density Posterior Comparison - Precise Model'),
+                  plot.seq = c(19, 18, 17, 15, 10, 5), col.seq = c(3, 4, 2, 5, 6, 7),
+                  legend.x = .1596, legend.y = 250, ylim = c(0,250),
+                  xlab = latex2exp('$E_c$'), post.x = Ec.grid,
+                  post.y = Ec.posterior.full, mle = Ec.mle.full$par)
+
+plot(1:length(Ec.parameters),unlist(lapply(Ec.parameters, function(x) max(density(x)$y))),
+     "l", xlab = "Time Step", ylab = "Maximum Density", main = "Precise Model")
+dev.off()

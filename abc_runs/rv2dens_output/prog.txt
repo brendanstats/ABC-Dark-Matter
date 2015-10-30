@@ -289,3 +289,14 @@ Drawn Samples: 189462
 Accepted Samples: 1000 
 -------------------- 
  
+-------------------- 
+Time step 26 
+-------------------- 
+Time: 2015-10-19 06:07:18 
+Total Time: 9.5478500576952 
+Step Time: 3.29601055755659 
+Epsilon: 0.04922601 0.01034079 
+Drawn Samples: 282255 
+Accepted Samples: 1000 
+-------------------- 
+ 
