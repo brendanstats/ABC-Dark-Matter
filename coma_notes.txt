@@ -1,0 +1,17 @@
+leave first two lines
+header includes different options
+
+-q is for different hues
+
+commands
+qstat:what is the status of the que (list of running jobs), generally use dark matter que
+don’t do -pri, just dark matter
+
+qsub:submits a job
+qdel:kill a job
+
+save things in cd /physics/bmcveigh
+
+ssh bmcveigh@coma.hpc1.cs.cmu.edu
+
+need to scope from coma
