@@ -1,0 +1,128 @@
+-------------------- 
+Session Info 
+-------------------- 
+Start Time: 2015-12-08 22:03:10 
+Initial Samples: 10000 
+Required Samples: 1000 
+Shrinkage Rate: 0.8 
+Time Steps: 25 
+Prior Functions: prior.Ec 
+Noise Functions: noise.normal.01.1 
+Distance Function: rv2.dens2d.3d2.distance 
+Progress File: sculptor_mp2_output/prog.txt 
+Output File: sculptor_mp2_output/results.R 
+Python Load Call: ../sampling_functions/functions_0721_sculptor_p26.py 
+Sampling Function: sampleR 
+Default Parameters: 2.4 -7.9 1.1 0.17 3 0 6.9 0.086 21 1.5 1 3 1 
+-------------------- 
+ 
+-------------------- 
+Time step 1 
+-------------------- 
+Time: 2015-12-09 19:04:14 
+Total Time: 21.0177572086122 
+Step Time: 21.0177572086122 
+Epsilon: 0.6449107 0.02602971 
+Drawn Samples: 10000 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 2 
+-------------------- 
+Time: 2015-12-09 20:01:38 
+Total Time: 21.9745665631029 
+Step Time: 57.4085612694422 
+Epsilon: 0.437962 0.01787789 
+Drawn Samples: 3031 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 3 
+-------------------- 
+Time: 2015-12-09 21:14:39 
+Total Time: 23.1912982474433 
+Step Time: 1.21673168434037 
+Epsilon: 0.3965721 0.01624766 
+Drawn Samples: 3949 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 4 
+-------------------- 
+Time: 2015-12-09 22:55:15 
+Total Time: 1.03616508137297 
+Step Time: 1.67666370550791 
+Epsilon: 0.3691858 0.01505777 
+Drawn Samples: 5549 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 5 
+-------------------- 
+Time: 2015-12-10 01:14:08 
+Total Time: 1.13261507251748 
+Step Time: 2.31479978746838 
+Epsilon: 0.3487357 0.01417442 
+Drawn Samples: 7851 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 6 
+-------------------- 
+Time: 2015-12-10 04:51:45 
+Total Time: 1.28373928528417 
+Step Time: 3.62698110640049 
+Epsilon: 0.3273345 0.01342988 
+Drawn Samples: 12204 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 7 
+-------------------- 
+Time: 2015-12-10 09:39:44 
+Total Time: 1.48373050323791 
+Step Time: 4.79978923088974 
+Epsilon: 0.3111643 0.01294713 
+Drawn Samples: 16339 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 8 
+-------------------- 
+Time: 2015-12-10 17:02:12 
+Total Time: 1.79099367018651 
+Step Time: 7.37431600676643 
+Epsilon: 0.2981012 0.01240982 
+Drawn Samples: 25447 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 9 
+-------------------- 
+Time: 2015-12-11 05:33:57 
+Total Time: 2.31304401907104 
+Step Time: 12.5292083732287 
+Epsilon: 0.2845755 0.0119278 
+Drawn Samples: 42307 
+Accepted Samples: 1000 
+-------------------- 
+ 
+-------------------- 
+Time step 10 
+-------------------- 
+Time: 2015-12-12 01:29:03 
+Total Time: 3.14297540231711 
+Step Time: 19.9183531979058 
+Epsilon: 0.273919 0.01151468 
+Drawn Samples: 68091 
+Accepted Samples: 1000 
+-------------------- 
+ 
