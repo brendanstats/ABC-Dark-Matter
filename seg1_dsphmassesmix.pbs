@@ -1,0 +1,9 @@
+#!/bin/csh
+#PBS -j eo
+#PBS -l nodes=1:ppn=020
+#PBS -l walltime=100:00:00
+#PBS -q darkmatter-pri
+
+cd $PBS_O_WORKDIR
+
+mpirun -np 20 /nfs/nas-0-9/mgwalker.proj/MultiNest_v2.17/exec/seg1_dsphmassesmix.exe > seg1_dsphmassesmix.log
