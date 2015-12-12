@@ -240,11 +240,11 @@ abc_pmc <- function(suff.stats,n,np,q,steps,prior.funs,noise.funs,distance.fun,
   cl <- makeCluster(ncore)
   registerDoParallel(cl)
   
-  error <- foreach(i=1:n,.combine=rbind,.packages=c("rPython","energy"),.export=c("magnitude","calc.m2")) %dopar% {
-    for (i in 1:length(.python.load)){
-      python.load(.python.load[i])
+  error <- foreach(ii=1:n,.combine=rbind,.packages=c("rPython","energy"),.export=c("magnitude","calc.m2")) %dopar% {
+    for (jj in 1:length(.python.load)){
+      python.load(.python.load[jj])
     }
-    distance.fun(prior.draw[i,],suff.stats)
+    distance.fun(prior.draw[ii,],suff.stats)
   }
   
   #close clusters
